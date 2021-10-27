@@ -1,0 +1,7 @@
+services:
+  crystal:
+    image: ghcr.io/luislavena/hydrofoil-crystal:1.2
+    build:
+      context: docker/1.2
+    volumes:
+      - .:/app:cached
