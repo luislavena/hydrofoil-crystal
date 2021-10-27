@@ -1,0 +1,36 @@
+---
+command:
+  crystal-installed:
+    exec: "crystal --version"
+    exit-status: 0
+
+  shards-installed:
+    exec: "shards --version"
+    exit-status: 0
+
+file:
+  /usr/local/bin/fixuid:
+    exists: true
+    mode: "4755"
+    owner: "root"
+    group: "root"
+  /etc/fixuid/config.yml:
+    exists: true
+
+user:
+  user:
+    exists: true
+    uid: 1000
+    gid: 1000
+    groups:
+      - user
+group:
+  user:
+    exists: true
+    gid: 1000
+
+package:
+  curl:
+    installed: true
+  git:
+    installed: true
