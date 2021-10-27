@@ -1,0 +1,8 @@
+name: myapp
+version: 0.0.1
+
+targets:
+  myapp:
+    main: src/myapp.cr
+
+crystal: 1.0.0

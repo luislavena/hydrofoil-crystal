@@ -1,0 +1,5 @@
+# watch for changes in src (*.cr), restart child process on changes
+server: watchexec -w src -f '**/*.cr' -r -- crystal run src/myapp.cr
+
+# watch for changes in spec and invoke `crystal spec`. Run only when changes are detected
+autospec: watchexec -w spec -f '**/*.cr' -p -- crystal spec
