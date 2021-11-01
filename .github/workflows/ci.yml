@@ -47,6 +47,13 @@ jobs:
 
       # TODO: Test image
 
+      - name: Container Security Scan
+        uses: anchore/scan-action@v3.1.0
+        with:
+          image: build:ci
+
+      # TODO: Security Analysis (SARIF)
+
       - name: Push Docker images
         uses: docker/build-push-action@v2.7.0
         with:
