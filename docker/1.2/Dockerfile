@@ -38,7 +38,7 @@ RUN --mount=type=cache,target=/var/cache/apk \
         wget -q -O fixuid.tar.gz https://github.com/boxboat/fixuid/releases/download/v${FIXUID_VERSION}/fixuid-${FIXUID_VERSION}-linux-amd64.tar.gz; \
         echo "${FIXUID_SHA256} *fixuid.tar.gz" | sha256sum -c - >/dev/null 2>&1; \
         tar -xf fixuid.tar.gz; \
-        mv ./fixuid /usr/local/bin/; \
+        mv fixuid /usr/local/bin/; \
         chmod u+s /usr/local/bin/fixuid; \
         rm fixuid.tar.gz; \
     }; \
@@ -96,10 +96,42 @@ RUN --mount=type=cache,target=/tmp \
 ENV PATH /usr/local/crystal/bin:$PATH
 
 # ---
-# 6. TODO: Install development utilities
+# 6. Install development utilities
+#
+# TODO: Support arch other than x86_64
+RUN --mount=type=cache,target=/var/cache/apk \
+    --mount=type=cache,target=/tmp \
+    set -eux; \
+    cd /tmp; \
+    # Hivemind
+    { \
+        export \
+            HIVEMIND_VERSION=1.0.6 \
+            HIVEMIND_SHA256=e31a225262479f7079d70668e2c87485e044d1a09a47cb7e1336d0e5dc9aa083; \
+        curl --fail -Lo hivemind.gz https://github.com/DarthSim/hivemind/releases/download/v${HIVEMIND_VERSION}/hivemind-v${HIVEMIND_VERSION}-linux-amd64.gz; \
+        echo "${HIVEMIND_SHA256} *hivemind.gz" | sha256sum -c - >/dev/null 2>&1; \
+        gunzip hivemind.gz; \
+        chmod +x hivemind; \
+        mv hivemind /usr/local/bin/; \
+    }; \
+    # Watchexec
+    { \
+        export \
+            WATCHEXEC_VERSION=1.17.1 \
+            WATCHEXEC_SHA256=6fa0a0709ab7064d74c551ee5998c0f532c9d9d00dfefed768f6e5be179625ce; \
+        curl --fail -Lo watchexec.tar.xz https://github.com/watchexec/watchexec/releases/download/cli-v${WATCHEXEC_VERSION}/watchexec-${WATCHEXEC_VERSION}-x86_64-unknown-linux-musl.tar.xz; \
+        echo "${WATCHEXEC_SHA256} *watchexec.tar.xz" | sha256sum -c - >/dev/null 2>&1; \
+        tar -xf watchexec.tar.xz; \
+        mv watchexec-${WATCHEXEC_VERSION}-x86_64-unknown-linux-musl/watchexec /usr/local/bin/; \
+        rm -rf watchexec.tar.xz watchexec-${WATCHEXEC_VERSION}-x86_64-unknown-linux-musl; \
+    }; \
+    # smoke tests
+    [ "$(command -v hivemind)" = '/usr/local/bin/hivemind' ]; \
+    [ "$(command -v watchexec)" = '/usr/local/bin/watchexec' ]; \
+    hivemind --version; \
+    watchexec --version
 
 # ---
 # 7. Adjust ENTRYPOINT and current user
 ENTRYPOINT [ "/usr/local/bin/fixuid", "-q" ]
 CMD [ "/bin/sh" ]
-USER user:user
