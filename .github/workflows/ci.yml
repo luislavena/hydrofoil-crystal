@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - 'main'
+  schedule:
+    # @weekly (Sunday)
+    - cron: '0 0 * * 0'
 
 jobs:
   crystal_1_2:

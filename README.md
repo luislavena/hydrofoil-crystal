@@ -10,7 +10,7 @@
 
 This project does **not** aim to:
 
-* Be compatible with [Visual Studi Code devcontainer](devcontainer) or [GitHub Codespaces](codespaces)
+* Be compatible with [Visual Studio Code devcontainer](devcontainer) or [GitHub Codespaces](codespaces)
 * Pack or include web-specific tools (Eg. Node, Deno, Yarn, etc)
 * Be _everything but the kitchen sink_
 
