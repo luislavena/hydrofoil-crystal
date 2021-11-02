@@ -1,4 +1,4 @@
-name: ci
+name: CI
 
 on:
   push:
@@ -46,14 +46,14 @@ jobs:
         with:
           context: docker/1.2
           load: true
-          tags: build:ci
+          tags: local-image:ci
 
       # TODO: Test image
 
       - name: Container Security Scan
         uses: anchore/scan-action@v3.1.0
         with:
-          image: build:ci
+          image: local-image:ci
 
       # TODO: Security Analysis (SARIF)
 
