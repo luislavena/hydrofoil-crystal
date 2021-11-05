@@ -53,11 +53,13 @@ jobs:
         uses: docker/build-push-action@v2.7.0
         with:
           context: docker/1.2
-          pull: true
-          load: true
           tags: local-image:ci
+          load: true
+          platforms: |
+            linux/amd64
+          pull: true
           cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+          cache-to: type=local,dest=/tmp/.buildx-cache-stage-1,mode=max
 
       # TODO: Test image
 
@@ -79,13 +81,13 @@ jobs:
         uses: docker/build-push-action@v2.7.0
         with:
           context: docker/1.2
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
           platforms: |
             linux/amd64
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+          cache-from: type=local,src=/tmp/.buildx-cache-stage-1
+          cache-to: type=local,dest=/tmp/.buildx-cache-stage-2,mode=max
 
       # Temp fix
       # https://github.com/docker/build-push-action/issues/252
@@ -93,4 +95,4 @@ jobs:
       - name: Cleanup Docker cache
         run: |
           rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-stage-2 /tmp/.buildx-cache
