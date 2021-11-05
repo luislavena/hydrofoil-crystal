@@ -90,7 +90,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           platforms: |
             linux/amd64
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           cache-from: type=local,src=/tmp/.buildx-cache-stage-1
           cache-to: type=local,dest=/tmp/.buildx-cache-stage-2,mode=max
 
