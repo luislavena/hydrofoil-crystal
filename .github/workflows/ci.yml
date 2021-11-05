@@ -61,7 +61,11 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-stage-1,mode=max
 
-      # TODO: Test image
+      - name: Install Goss
+        uses: e1himself/goss-installation-action@v1.0.3
+
+      - name: Test Docker image
+        run: dgoss run local-image:ci sleep infinity
 
       - name: Container Security Scan
         uses: anchore/scan-action@v3.1.0
