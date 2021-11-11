@@ -49,6 +49,10 @@ RUN --mount=type=cache,target=/var/cache/apk \
         echo "group: user"; \
     } | tee /etc/fixuid/config.yml
 
+# Adjust ENTRYPOINT
+ENTRYPOINT [ "/usr/local/bin/fixuid", "-q" ]
+CMD [ "/bin/sh" ]
+
 # ---
 # 4. Install Crystal dependencies
 RUN --mount=type=cache,target=/var/cache/apk \
@@ -130,8 +134,3 @@ RUN --mount=type=cache,target=/var/cache/apk \
     [ "$(command -v watchexec)" = '/usr/local/bin/watchexec' ]; \
     hivemind --version; \
     watchexec --version
-
-# ---
-# 7. Adjust ENTRYPOINT and current user
-ENTRYPOINT [ "/usr/local/bin/fixuid", "-q" ]
-CMD [ "/bin/sh" ]
