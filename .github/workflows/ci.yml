@@ -64,6 +64,8 @@ jobs:
 
       - name: Install Goss
         uses: e1himself/goss-installation-action@v1.0.3
+        with:
+          version: 'v0.3.16'
 
       - name: Test Docker image
         run: dgoss run local-image:ci sleep infinity
