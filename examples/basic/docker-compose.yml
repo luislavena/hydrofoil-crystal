@@ -1,8 +1,11 @@
 services:
   crystal:
     image: ghcr.io/luislavena/hydrofoil-crystal:1.2
-    user: ${FIXUID:-1000}:${FIXGID:-1000}
     build:
       context: ../../docker/1.2
+
+    # Set these env variables using `export FIXUID=$(id -u) FIXGID=$(id -g)`
+    user: ${FIXUID:-1000}:${FIXGID:-1000}
+
     volumes:
       - .:/app:cached
