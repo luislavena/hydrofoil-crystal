@@ -2,10 +2,7 @@
 
 # ---
 # 1. Use Alpine as base
-#
-# NOTE: Use Alpine 3.12 as newer version present a performance regression
-# Ref: https://github.com/crystal-lang/distribution-scripts/pull/127#issuecomment-920489700
-FROM alpine:3.12 AS base
+FROM alpine:3.14 AS base
 
 # ---
 # 2. Upgrade system and installed dependencies for security patches
