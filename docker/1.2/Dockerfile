@@ -105,16 +105,19 @@ RUN --mount=type=cache,target=/var/cache/apk \
     --mount=type=cache,target=/tmp \
     set -eux; \
     cd /tmp; \
-    # Hivemind
+    # Overmind (needs tmux)
     { \
+        apk add \
+            tmux \
+        ; \
         export \
-            HIVEMIND_VERSION=1.0.6 \
-            HIVEMIND_SHA256=e31a225262479f7079d70668e2c87485e044d1a09a47cb7e1336d0e5dc9aa083; \
-        curl --fail -Lo hivemind.gz https://github.com/DarthSim/hivemind/releases/download/v${HIVEMIND_VERSION}/hivemind-v${HIVEMIND_VERSION}-linux-amd64.gz; \
-        echo "${HIVEMIND_SHA256} *hivemind.gz" | sha256sum -c - >/dev/null 2>&1; \
-        gunzip hivemind.gz; \
-        chmod +x hivemind; \
-        mv hivemind /usr/local/bin/; \
+            OVERMIND_VERSION=2.2.2 \
+            OVERMIND_SHA256=2373737110da98f50d7f1c5b05e23d4d65b8f519ca885f7fe169f83ff0f6f61e; \
+        curl --fail -Lo overmind.gz https://github.com/DarthSim/overmind/releases/download/v${OVERMIND_VERSION}/overmind-v${OVERMIND_VERSION}-linux-amd64.gz; \
+        echo "${OVERMIND_SHA256} *overmind.gz" | sha256sum -c - >/dev/null 2>&1; \
+        gunzip overmind.gz; \
+        chmod +x overmind; \
+        mv overmind /usr/local/bin/; \
     }; \
     # Watchexec
     { \
@@ -128,7 +131,7 @@ RUN --mount=type=cache,target=/var/cache/apk \
         rm -rf watchexec.tar.xz watchexec-${WATCHEXEC_VERSION}-x86_64-unknown-linux-musl; \
     }; \
     # smoke tests
-    [ "$(command -v hivemind)" = '/usr/local/bin/hivemind' ]; \
+    [ "$(command -v overmind)" = '/usr/local/bin/overmind' ]; \
     [ "$(command -v watchexec)" = '/usr/local/bin/watchexec' ]; \
-    hivemind --version; \
+    overmind --version; \
     watchexec --version

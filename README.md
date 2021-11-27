@@ -27,7 +27,7 @@ offered image as base.
 Additionally, it includes the following packages:
 
 * [fixuid](https://github.com/boxboat/fixuid): tweaks container UID/GID to avoid ownership issues on mounted volumes
-* [Hivemind](https://github.com/DarthSim/hivemind): Procfile-based simple process manager
+* [Overmind](https://github.com/DarthSim/overmind): Advanced Procfile-based process manager
 * [watchexec](https://github.com/watchexec/watchexec): simple tool that watches a path and runs a command whenever it detects modifications
 
 ## Requirements
@@ -46,7 +46,7 @@ To take full advantage of this container image, you need to adjust your
 services:
   app:
     image: ghcr.io/luislavena/hydrofoil-crystal:1.2.1
-    command: hivemind Procfile.dev
+    command: overmind start -f Procfile.dev
     working_dir: /app
 
     # Set these env variables using `export FIXUID=$(id -u) FIXGID=$(id -g)`
@@ -59,11 +59,11 @@ services:
 Let's break down each element:
 
 ```yaml
-command: hivemind Procfile.dev
+command: overmind start -f Procfile.dev
 ```
 
-This indicates that the container will execute Hivemind process manager and
-start the processes indicated in `Procfile.dev` file.
+The container will execute Overmind process manager and start the processes
+indicated in the `Procfile.dev` file.
 
 ```yaml
 working_dir: /app

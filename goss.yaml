@@ -34,3 +34,5 @@ package:
     installed: true
   git:
     installed: true
+  tmux:
+    installed: true
