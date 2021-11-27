@@ -51,7 +51,7 @@ ENTRYPOINT [ "/usr/local/bin/fixuid", "-q" ]
 CMD [ "/bin/sh" ]
 
 # ---
-# 4. Install Crystal dependencies
+# 4. Install Crystal dependencies & common packages
 RUN --mount=type=cache,target=/var/cache/apk \
     set -eux; \
     apk add \
@@ -64,6 +64,7 @@ RUN --mount=type=cache,target=/var/cache/apk \
         openssl-dev \
         openssl-libs-static \
         pcre-dev \
+        sqlite-static \
         yaml-static \
         zlib-dev \
         zlib-static \
