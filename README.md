@@ -45,7 +45,7 @@ To take full advantage of this container image, you need to adjust your
 ```yaml
 services:
   app:
-    image: ghcr.io/luislavena/hydrofoil-crystal:1.2.1
+    image: ghcr.io/luislavena/hydrofoil-crystal:1.2
     command: overmind start -f Procfile.dev
     working_dir: /app
 
