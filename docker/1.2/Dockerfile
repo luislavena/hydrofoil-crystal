@@ -65,6 +65,7 @@ RUN --mount=type=cache,target=/var/cache/apk \
         openssl-libs-static \
         pcre-dev \
         sqlite-static \
+        tzdata \
         yaml-static \
         zlib-dev \
         zlib-static \

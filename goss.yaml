@@ -36,3 +36,5 @@ package:
     installed: true
   tmux:
     installed: true
+  tzdata:
+    installed: true
