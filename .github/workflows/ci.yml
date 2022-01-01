@@ -76,6 +76,7 @@ jobs:
         with:
           image: local-image:ci
           fail-build: true
+          severity-cutoff: high
           acs-report-enable: true
 
       - name: Upload Security Scan (SARIF) report
