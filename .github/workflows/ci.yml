@@ -45,7 +45,7 @@ jobs:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ matrix.crystal_major_minor }}-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-buildx-
+            ${{ runner.os }}-buildx-${{ matrix.crystal_major_minor }}-
 
       - name: Docker Metadata action
         id: meta
