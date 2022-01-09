@@ -10,9 +10,17 @@ on:
     - cron: '0 0 * * 0'
 
 jobs:
-  crystal_1_2:
-    name: Crystal 1.2.2
+  build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { crystal_major_minor: 1.2, crystal_full: 1.2.2 }
+
+    name: >-
+      Crystal ${{ matrix.crystal_full }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2.4.0
@@ -47,13 +55,13 @@ jobs:
           images: |
             ghcr.io/luislavena/hydrofoil-crystal
           tags: |
-            type=raw,1.2.2
-            type=raw,1.2
+            type=raw,${{ matrix.crystal_full }}
+            type=raw,${{ matrix.crystal_major_minor }}
 
       - name: Build Docker images
         uses: docker/build-push-action@v2.7.0
         with:
-          context: docker/1.2
+          context: docker/${{ matrix.crystal_major_minor }}
           tags: local-image:ci
           load: true
           platforms: |
@@ -94,7 +102,7 @@ jobs:
       - name: Push Docker images
         uses: docker/build-push-action@v2.7.0
         with:
-          context: docker/1.2
+          context: docker/${{ matrix.crystal_major_minor }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: |
