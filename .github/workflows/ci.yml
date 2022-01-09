@@ -43,7 +43,7 @@ jobs:
         uses: actions/cache@v2.1.7
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          key: ${{ runner.os }}-buildx-${{ matrix.crystal_major_minor }}-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
 
