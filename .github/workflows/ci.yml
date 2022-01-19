@@ -39,13 +39,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Cache Docker layers
-        uses: actions/cache@v2.1.7
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ matrix.crystal_major_minor }}-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-${{ matrix.crystal_major_minor }}-
+      # FIXME: re-enable once GitHub Action cache can be easily expired
+      # - name: Cache Docker layers
+      #   uses: actions/cache@v2.1.7
+      #   with:
+      #     path: /tmp/.buildx-cache
+      #     key: ${{ runner.os }}-buildx-${{ matrix.crystal_major_minor }}-${{ github.sha }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-buildx-${{ matrix.crystal_major_minor }}-
 
       - name: Docker Metadata action
         id: meta
@@ -68,8 +69,9 @@ jobs:
           platforms: |
             linux/amd64
           pull: true
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-stage-1,mode=max
+          # FIXME: re-enable once `actions/cache` is back
+          # cache-from: type=local,src=/tmp/.buildx-cache
+          # cache-to: type=local,dest=/tmp/.buildx-cache-stage-1,mode=max
 
       - name: Install Goss
         uses: e1himself/goss-installation-action@v1.0.4
@@ -108,13 +110,15 @@ jobs:
           platforms: |
             linux/amd64
           push: ${{ github.event_name != 'pull_request' }}
-          cache-from: type=local,src=/tmp/.buildx-cache-stage-1
-          cache-to: type=local,dest=/tmp/.buildx-cache-stage-2,mode=max
+          # FIXME: re-enable once `actions/cache` is back
+          # cache-from: type=local,src=/tmp/.buildx-cache-stage-1
+          # cache-to: type=local,dest=/tmp/.buildx-cache-stage-2,mode=max
 
+      # FIXME: re-enable once `actions/cache` is enabled back
       # Temp fix
       # https://github.com/docker/build-push-action/issues/252
       # https://github.com/moby/buildkit/issues/1896
-      - name: Cleanup Docker cache
-        run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-stage-2 /tmp/.buildx-cache
+      # - name: Cleanup Docker cache
+      #   run: |
+      #     rm -rf /tmp/.buildx-cache
+      #     mv /tmp/.buildx-cache-stage-2 /tmp/.buildx-cache
