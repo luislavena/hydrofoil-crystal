@@ -78,8 +78,8 @@ RUN --mount=type=cache,target=/var/cache/apk \
 RUN --mount=type=cache,target=/tmp \
     set -eux; \
     export \
-        CRYSTAL_VERSION=1.3.1 \
-        CRYSTAL_SHA256=c71f4c125758e62b2aa65b64d5e5f92ab2b43fc7727ac297eab968712b137536; \
+        CRYSTAL_VERSION=1.3.2 \
+        CRYSTAL_SHA256=6e102e55d658f2cc0c56d23fcb50bd2edbd98959aa6b59b8e1210c6860651ed4; \
     cd /tmp; \
     { \
         curl --fail -Lo crystal.tar.gz https://github.com/crystal-lang/crystal/releases/download/${CRYSTAL_VERSION}/crystal-${CRYSTAL_VERSION}-1-linux-x86_64.tar.gz; \
