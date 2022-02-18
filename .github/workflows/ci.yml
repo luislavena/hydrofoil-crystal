@@ -59,7 +59,7 @@ jobs:
           tag-prefix: crystal-${{ matrix.crystal_major_minor }}--
 
       - name: Build Docker images
-        uses: docker/build-push-action@v2.7.0
+        uses: docker/build-push-action@v2.9.0
         with:
           context: docker/${{ matrix.crystal_major_minor }}
           tags: local-image:ci
@@ -99,7 +99,7 @@ jobs:
       #     config-file: ${{ github.workspace }}/.dive-ci.yml
 
       - name: Push Docker images
-        uses: docker/build-push-action@v2.7.0
+        uses: docker/build-push-action@v2.9.0
         with:
           context: docker/${{ matrix.crystal_major_minor }}
           tags: ${{ steps.meta.outputs.tags }}
