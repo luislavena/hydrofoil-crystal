@@ -39,15 +39,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # FIXME: re-enable once GitHub Action cache can be easily expired
-      # - name: Cache Docker layers
-      #   uses: actions/cache@v2.1.7
-      #   with:
-      #     path: /tmp/.buildx-cache
-      #     key: ${{ runner.os }}-buildx-${{ matrix.crystal_major_minor }}-${{ github.sha }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-buildx-${{ matrix.crystal_major_minor }}-
-
       - name: Docker Metadata action
         id: meta
         uses: docker/metadata-action@v3.6.2
@@ -60,6 +51,13 @@ jobs:
             type=raw,${{ matrix.crystal_full }}
             type=raw,${{ matrix.crystal_major_minor }}
 
+      - name: Setup Docker BuildKit cache strategy
+        uses: int128/docker-build-cache-config-action@v1.0.0
+        id: cache
+        with:
+          image: ghcr.io/${{ github.repository }}/build-cache
+          tag-prefix: crystal-${{ matrix.crystal_full }}--
+
       - name: Build Docker images
         uses: docker/build-push-action@v2.7.0
         with:
@@ -69,9 +67,8 @@ jobs:
           platforms: |
             linux/amd64
           pull: true
-          # FIXME: re-enable once `actions/cache` is back
-          # cache-from: type=local,src=/tmp/.buildx-cache
-          # cache-to: type=local,dest=/tmp/.buildx-cache-stage-1,mode=max
+          cache-from: ${{ steps.cache.outputs.cache-from }}
+          cache-to: ${{ steps.cache.outputs.cache-to }}
 
       - name: Install Goss
         uses: e1himself/goss-installation-action@v1.0.4
@@ -110,15 +107,5 @@ jobs:
           platforms: |
             linux/amd64
           push: ${{ github.event_name != 'pull_request' }}
-          # FIXME: re-enable once `actions/cache` is back
-          # cache-from: type=local,src=/tmp/.buildx-cache-stage-1
-          # cache-to: type=local,dest=/tmp/.buildx-cache-stage-2,mode=max
-
-      # FIXME: re-enable once `actions/cache` is enabled back
-      # Temp fix
-      # https://github.com/docker/build-push-action/issues/252
-      # https://github.com/moby/buildkit/issues/1896
-      # - name: Cleanup Docker cache
-      #   run: |
-      #     rm -rf /tmp/.buildx-cache
-      #     mv /tmp/.buildx-cache-stage-2 /tmp/.buildx-cache
+          cache-from: ${{ steps.cache.outputs.cache-from }}
+          cache-to: ${{ steps.cache.outputs.cache-to }}
