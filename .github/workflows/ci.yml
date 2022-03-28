@@ -79,7 +79,7 @@ jobs:
         run: dgoss run local-image:ci sleep infinity
 
       - name: Container Security Scan
-        uses: anchore/scan-action@v3.2.0
+        uses: anchore/scan-action@v3.2.1
         id: scan
         with:
           image: local-image:ci
