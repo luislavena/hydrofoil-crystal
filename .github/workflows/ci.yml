@@ -78,19 +78,6 @@ jobs:
       - name: Test Docker image
         run: dgoss run local-image:ci sleep infinity
 
-      - name: Container Security Scan
-        uses: anchore/scan-action@v3.2.0
-        id: scan
-        with:
-          image: local-image:ci
-          fail-build: false
-          acs-report-enable: true
-
-      - name: Upload Security Scan (SARIF) report
-        uses: github/codeql-action/upload-sarif@v1
-        with:
-          sarif_file: ${{ steps.scan.outputs.sarif }}
-
       # FIXME: Use latest version of Dive
       # - name: Analyze image efficiency
       #   uses: yuichielectric/dive-action@0.0.4
