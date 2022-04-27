@@ -8,6 +8,13 @@ command:
     exec: "shards --version"
     exit-status: 0
 
+  verify-compilation:
+    exec: |
+      crystal eval 'require "yaml"; require "openssl"; puts YAML.libyaml_version, LibSSL::OPENSSL_VERSION, LibSSL::OPENSSL_VERSION, "OK"'
+    exit-status: 0
+    stdout:
+      - "/OK/"
+
 file:
   /usr/local/bin/fixuid:
     exists: true
