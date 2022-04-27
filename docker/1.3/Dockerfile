@@ -123,8 +123,8 @@ RUN --mount=type=cache,target=/var/cache/apk \
     # Watchexec
     { \
         export \
-            WATCHEXEC_VERSION=1.18.6 \
-            WATCHEXEC_SHA256=d5643353a634d01b2b91618b5da39ef44813fc46518bf79c3ba1b589c7897dd4; \
+            WATCHEXEC_VERSION=1.19.0 \
+            WATCHEXEC_SHA256=e9f52dd1861d45d46208b34b362b1eed9bff2d95f34b6906dc834dc8dcb90ba5; \
         curl --fail -Lo watchexec.tar.xz https://github.com/watchexec/watchexec/releases/download/cli-v${WATCHEXEC_VERSION}/watchexec-${WATCHEXEC_VERSION}-x86_64-unknown-linux-musl.tar.xz; \
         echo "${WATCHEXEC_SHA256} *watchexec.tar.xz" | sha256sum -c - >/dev/null 2>&1; \
         tar -xf watchexec.tar.xz; \
