@@ -1,4 +1,4 @@
-# syntax = docker/dockerfile:1.2
+# syntax = docker/dockerfile:1.3
 
 # ---
 # 1. Use Alpine as base
