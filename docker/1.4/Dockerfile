@@ -2,7 +2,7 @@
 
 # ---
 # 1. Use Alpine as base
-FROM alpine:3.15 AS base
+FROM alpine:3.16 AS base
 
 # ---
 # 2. Upgrade system and installed dependencies for security patches
@@ -15,7 +15,7 @@ RUN --mount=type=cache,target=/var/cache/apk \
 #
 # TODO: detect arch other than x86_64
 RUN --mount=type=cache,target=/var/cache/apk \
-    --mount=type=cache,target=/tmp \
+    --mount=type=tmpfs,target=/tmp \
     set -eux; \
     # create non-root user & give passwordless sudo
     { \
@@ -75,7 +75,7 @@ RUN --mount=type=cache,target=/var/cache/apk \
 # 5. Download and extract Crystal
 #
 # TODO: detect arch other than x86_64
-RUN --mount=type=cache,target=/tmp \
+RUN --mount=type=tmpfs,target=/tmp \
     set -eux; \
     export \
         CRYSTAL_VERSION=1.4.1 \
@@ -103,7 +103,7 @@ ENV PATH /usr/local/crystal/bin:$PATH
 #
 # TODO: Support arch other than x86_64
 RUN --mount=type=cache,target=/var/cache/apk \
-    --mount=type=cache,target=/tmp \
+    --mount=type=tmpfs,target=/tmp \
     set -eux; \
     cd /tmp; \
     # Overmind (needs tmux)
