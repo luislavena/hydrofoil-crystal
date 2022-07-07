@@ -26,7 +26,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3.0.2
 
       - name: Docker Setup QEMU
         uses: docker/setup-qemu-action@v2.0.0
@@ -35,7 +35,7 @@ jobs:
         uses: docker/setup-buildx-action@v2.0.0
 
       - name: Docker GitHub Registry Login
-        uses: docker/login-action@v1.14.1
+        uses: docker/login-action@v2.0.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -43,7 +43,7 @@ jobs:
 
       - name: Docker Metadata action
         id: meta
-        uses: docker/metadata-action@v3.6.2
+        uses: docker/metadata-action@v4.0.1
         with:
           flavor: |
             latest=false
@@ -54,14 +54,14 @@ jobs:
             type=raw,${{ matrix.crystal_major_minor }}
 
       - name: Setup Docker BuildKit cache strategy
-        uses: int128/docker-build-cache-config-action@v1.2.0
+        uses: int128/docker-build-cache-config-action@v1.9.0
         id: cache
         with:
           image: ghcr.io/${{ github.repository }}/build-cache
           tag-prefix: crystal-${{ matrix.crystal_major_minor }}--
 
       - name: Build Docker images
-        uses: docker/build-push-action@v2.10.0
+        uses: docker/build-push-action@v3.0.0
         with:
           context: docker/${{ matrix.crystal_major_minor }}
           tags: local-image:ci
@@ -88,7 +88,7 @@ jobs:
       #     config-file: ${{ github.workspace }}/.dive-ci.yml
 
       - name: Push Docker images
-        uses: docker/build-push-action@v2.10.0
+        uses: docker/build-push-action@v3.0.0
         with:
           context: docker/${{ matrix.crystal_major_minor }}
           tags: ${{ steps.meta.outputs.tags }}
