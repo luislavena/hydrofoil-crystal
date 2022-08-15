@@ -54,7 +54,7 @@ jobs:
             type=raw,${{ matrix.crystal_major_minor }}
 
       - name: Setup Docker BuildKit cache strategy
-        uses: int128/docker-build-cache-config-action@v1.9.0
+        uses: int128/docker-build-cache-config-action@v1.10.0
         id: cache
         with:
           image: ghcr.io/${{ github.repository }}/build-cache
