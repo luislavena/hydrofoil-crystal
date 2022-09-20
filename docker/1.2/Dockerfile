@@ -112,8 +112,8 @@ RUN --mount=type=cache,target=/var/cache/apk \
             tmux \
         ; \
         export \
-            OVERMIND_VERSION=2.2.2 \
-            OVERMIND_SHA256=2373737110da98f50d7f1c5b05e23d4d65b8f519ca885f7fe169f83ff0f6f61e; \
+            OVERMIND_VERSION=2.3.0 \
+            OVERMIND_SHA256=d6a715c0810ceb39c94bf61843befebe04a83a0469b53d6af0a52e2fea4e2ab3; \
         curl --fail -Lo overmind.gz https://github.com/DarthSim/overmind/releases/download/v${OVERMIND_VERSION}/overmind-v${OVERMIND_VERSION}-linux-amd64.gz; \
         echo "${OVERMIND_SHA256} *overmind.gz" | sha256sum -c - >/dev/null 2>&1; \
         gunzip overmind.gz; \
@@ -123,9 +123,9 @@ RUN --mount=type=cache,target=/var/cache/apk \
     # Watchexec
     { \
         export \
-            WATCHEXEC_VERSION=1.19.0 \
-            WATCHEXEC_SHA256=e9f52dd1861d45d46208b34b362b1eed9bff2d95f34b6906dc834dc8dcb90ba5; \
-        curl --fail -Lo watchexec.tar.xz https://github.com/watchexec/watchexec/releases/download/cli-v${WATCHEXEC_VERSION}/watchexec-${WATCHEXEC_VERSION}-x86_64-unknown-linux-musl.tar.xz; \
+            WATCHEXEC_VERSION=1.20.6 \
+            WATCHEXEC_SHA256=6e746704b61d4a2a467546930a837ceef3a4003fc568e574cf6f43a798a4ab00; \
+        curl --fail -Lo watchexec.tar.xz https://github.com/watchexec/watchexec/releases/download/v${WATCHEXEC_VERSION}/watchexec-${WATCHEXEC_VERSION}-x86_64-unknown-linux-musl.tar.xz; \
         echo "${WATCHEXEC_SHA256} *watchexec.tar.xz" | sha256sum -c - >/dev/null 2>&1; \
         tar -xf watchexec.tar.xz; \
         mv watchexec-${WATCHEXEC_VERSION}-x86_64-unknown-linux-musl/watchexec /usr/local/bin/; \
