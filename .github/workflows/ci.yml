@@ -64,8 +64,8 @@ jobs:
           images: |
             ghcr.io/luislavena/hydrofoil-crystal
           tags: |
-            type=raw,${{ matrix.crystal_full }}-pr42
-            type=raw,${{ matrix.crystal_major_minor }}-pr42
+            type=raw,${{ matrix.crystal_full }}
+            type=raw,${{ matrix.crystal_major_minor }}
 
       - name: Setup Docker BuildKit cache strategy
         uses: int128/docker-build-cache-config-action@v1.9.0
@@ -83,7 +83,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: ${{ matrix.target_platforms }}
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           cache-from: ${{ steps.cache.outputs.cache-from }}
           cache-to: ${{ steps.cache.outputs.cache-to }}
 
