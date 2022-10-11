@@ -16,6 +16,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - crystal_major_minor: 1.6
+            crystal_full: 1.6.0
+            target_platforms: linux/amd64,linux/arm64
+
           - crystal_major_minor: 1.5
             crystal_full: 1.5.1
             target_platforms: linux/amd64,linux/arm64
