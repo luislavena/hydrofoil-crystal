@@ -2,7 +2,7 @@
 
 # ---
 # 1. Use Alpine as base
-FROM alpine:3.16 AS base
+FROM alpine:3.16.3 AS base
 
 # ---
 # 2. Upgrade system and installed dependencies for security patches
