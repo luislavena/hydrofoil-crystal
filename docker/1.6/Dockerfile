@@ -30,7 +30,7 @@ RUN --mount=type=cache,sharing=private,target=/var/cache/apk \
     ;
 
 # download and compile Crystal source for target platform
-RUN set -eux; \
+RUN set -eux -o pipefail; \
     cd /tmp; \
     export \
         CRYSTAL_VERSION=1.6.2 \
@@ -56,7 +56,7 @@ RUN set -eux; \
     }
 
 # download and compile Shards source for target platform
-RUN set -eux; \
+RUN set -eux -o pipefail; \
     cd /tmp; \
     export \
         SHARDS_VERSION=0.17.1 \
@@ -184,7 +184,7 @@ RUN --mount=type=cache,sharing=private,target=/var/cache/apk \
 # setup non-root user (fixuid)
 RUN --mount=type=cache,sharing=private,target=/var/cache/apk \
     --mount=type=tmpfs,target=/tmp \
-    set -eux; \
+    set -eux -o pipefail; \
     # create non-root user & give passwordless sudo
     { \
         apk add sudo; \
