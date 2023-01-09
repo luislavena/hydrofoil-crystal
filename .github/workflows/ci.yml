@@ -16,6 +16,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - crystal_major_minor: 1.7
+            crystal_full: 1.7.0
+            target_platforms: linux/amd64,linux/arm64
+            concurrency_group: compile-crystal
+
           - crystal_major_minor: 1.6
             crystal_full: 1.6.2
             target_platforms: linux/amd64,linux/arm64
