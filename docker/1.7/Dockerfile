@@ -33,8 +33,8 @@ RUN --mount=type=cache,sharing=private,target=/var/cache/apk \
 RUN set -eux -o pipefail; \
     cd /tmp; \
     export \
-        CRYSTAL_VERSION=1.7.1 \
-        CRYSTAL_SHA256=01781fcaaf6714556a1717749cf9bbde10836f58e9f436aedfd8b914b5fc252f \
+        CRYSTAL_VERSION=1.7.2 \
+        CRYSTAL_SHA256=614844c9cfc8306dbff15637beaa02647d2a2deacecefe37c1ff833e0047e4a4 \
     ; \
     { \
         curl --fail -Lo crystal.tar.gz https://github.com/crystal-lang/crystal/archive/refs/tags/${CRYSTAL_VERSION}.tar.gz; \
