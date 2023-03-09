@@ -169,6 +169,7 @@ RUN --mount=type=cache,sharing=private,target=/var/cache/apk \
         openssl-dev \
         openssl-libs-static \
         pcre-dev \
+        pcre2-dev \
         sqlite-static \
         tzdata \
         yaml-dev \
