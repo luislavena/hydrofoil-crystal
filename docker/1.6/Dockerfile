@@ -238,18 +238,18 @@ RUN --mount=type=cache,sharing=private,target=/var/cache/apk \
     cd /tmp; \
     # Overmind (needs tmux)
     { \
-        export OVERMIND_VERSION=2.3.0; \
+        export OVERMIND_VERSION=2.4.0; \
         case "$(arch)" in \
         x86_64) \
             export \
                 OVERMIND_ARCH=amd64 \
-                OVERMIND_SHA256=d6a715c0810ceb39c94bf61843befebe04a83a0469b53d6af0a52e2fea4e2ab3 \
+                OVERMIND_SHA256=1f7cac289b550a71bebf4a29139e58831b39003d9831be59eed3e39a9097311c \
             ; \
             ;; \
         aarch64) \
             export \
                 OVERMIND_ARCH=arm64 \
-                OVERMIND_SHA256=ac6bed32200963977e9e14e2b5228c3b1ecd25be3279bfa41c44cdbf555f1217 \
+                OVERMIND_SHA256=94a3e8393bd718ae9ec1b6cc21740bffa52da20710eaf020a7aa679cdc926104 \
             ; \
             ;; \
         esac; \
@@ -264,18 +264,18 @@ RUN --mount=type=cache,sharing=private,target=/var/cache/apk \
     }; \
     # Watchexec
     { \
-        export WATCHEXEC_VERSION=1.20.6; \
+        export WATCHEXEC_VERSION=1.22.0; \
         case "$(arch)" in \
         x86_64) \
             export \
                 WATCHEXEC_ARCH=x86_64 \
-                WATCHEXEC_SHA256=6e746704b61d4a2a467546930a837ceef3a4003fc568e574cf6f43a798a4ab00 \
+                WATCHEXEC_SHA256=b3d53a1390a9550881433d23a2e0d128afb4e734079bb11de81b984d75a98524 \
             ; \
             ;; \
         aarch64) \
             export \
                 WATCHEXEC_ARCH=aarch64 \
-                WATCHEXEC_SHA256=0c9fd0f8013d30330ba0116dd8a4f77060cb55277825ebcc1b2f63aca3dc5d36 \
+                WATCHEXEC_SHA256=18ef5b82c40815bd314484a764082cc0f33fbfdb3e88a022a6961fee35230e0a \
             ; \
             ;; \
         esac; \
