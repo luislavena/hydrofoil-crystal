@@ -264,18 +264,18 @@ RUN --mount=type=cache,sharing=private,target=/var/cache/apk \
     }; \
     # Watchexec
     { \
-        export WATCHEXEC_VERSION=1.22.0; \
+        export WATCHEXEC_VERSION=1.21.1; \
         case "$(arch)" in \
         x86_64) \
             export \
                 WATCHEXEC_ARCH=x86_64 \
-                WATCHEXEC_SHA256=b3d53a1390a9550881433d23a2e0d128afb4e734079bb11de81b984d75a98524 \
+                WATCHEXEC_SHA256=807c05bf02dbe77b19e2acbfa9860ccbfcc0a3972fbf984f5b664b1ba5ef4f98 \
             ; \
             ;; \
         aarch64) \
             export \
                 WATCHEXEC_ARCH=aarch64 \
-                WATCHEXEC_SHA256=18ef5b82c40815bd314484a764082cc0f33fbfdb3e88a022a6961fee35230e0a \
+                WATCHEXEC_SHA256=ebd3c97178eda2806e0e02149503269179cec09b95bdd2700de10a4eea54852b \
             ; \
             ;; \
         esac; \
