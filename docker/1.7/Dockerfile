@@ -59,8 +59,8 @@ RUN set -eux -o pipefail; \
 RUN set -eux -o pipefail; \
     cd /tmp; \
     export \
-        SHARDS_VERSION=0.17.2 \
-        SHARDS_SHA256=ca3963512db8316b3624c0fba57f803419d67502416fe44938a27aa616cf9d70 \
+        SHARDS_VERSION=0.17.3 \
+        SHARDS_SHA256=6512ff51bd69057f4da4783eb6b14c29d9a88b97d35985356d1dc644a08424c7 \
     ; \
     { \
         curl --fail -Lo shards.tar.gz https://github.com/crystal-lang/shards/archive/refs/tags/v${SHARDS_VERSION}.tar.gz; \
