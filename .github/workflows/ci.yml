@@ -17,7 +17,7 @@ jobs:
       matrix:
         include:
           - crystal_major_minor: 1.8
-            crystal_full: 1.8.0-dev
+            crystal_full: 1.8.0
             target_platforms: linux/amd64,linux/arm64
             concurrency_group: compile-crystal
 
