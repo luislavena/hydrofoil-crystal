@@ -33,16 +33,15 @@ RUN --mount=type=cache,sharing=private,target=/var/cache/apk \
 RUN set -eux -o pipefail; \
     cd /tmp; \
     export \
-        CRYSTAL_VERSION=1.8.0-dev \
-        CRYSTAL_CONFIG_BUILD_COMMIT=953ba96cb741ed7025d88ad84d02226677077fda \
-        CRYSTAL_SHA256=2c44f1f8f5fc5786adac47fe929f7c00b8c360126cb7f0ecba6f546026fe2106 \
+        CRYSTAL_VERSION=1.8.0 \
+        CRYSTAL_SHA256=6353c3b3ca5a1ed6c8b3ee80e5141d130856ebc736c30d1684661001279c2fe1 \
     ; \
     { \
-        curl --fail -Lo crystal.tar.gz https://github.com/crystal-lang/crystal/archive/${CRYSTAL_CONFIG_BUILD_COMMIT}.tar.gz; \
+        curl --fail -Lo crystal.tar.gz https://github.com/crystal-lang/crystal/archive/refs/tags/${CRYSTAL_VERSION}.tar.gz; \
         echo "${CRYSTAL_SHA256} *crystal.tar.gz" | sha256sum -c - >/dev/null 2>&1; \
         tar -xf crystal.tar.gz; \
         rm crystal.tar.gz; \
-        mv crystal-${CRYSTAL_CONFIG_BUILD_COMMIT} crystal; \
+        mv crystal-${CRYSTAL_VERSION} crystal; \
     }; \
     { \
         cd /tmp/crystal; \
