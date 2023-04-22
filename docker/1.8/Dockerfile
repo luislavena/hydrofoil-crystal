@@ -10,7 +10,7 @@
 
 # ---
 # stage0: bootstrap Crystal using Alpine's build of Crystal
-FROM --platform=$BUILDPLATFORM alpine:3.17.2 AS stage0
+FROM --platform=$BUILDPLATFORM alpine:3.17.3 AS stage0
 
 # expose the target architecture to be used in cross-compilation
 ARG TARGETARCH
@@ -82,7 +82,7 @@ RUN set -eux -o pipefail; \
 
 # ---
 # stage1: link compiled objects on target platform
-FROM alpine:3.17.2 AS stage1
+FROM alpine:3.17.3 AS stage1
 
 # install dependencies needed for linking
 RUN --mount=type=cache,sharing=private,target=/var/cache/apk \
@@ -137,7 +137,7 @@ RUN set -eux; \
 
 # ---
 # stage2: prepare binaries and code for final image
-FROM alpine:3.17.2 AS stage2
+FROM alpine:3.17.3 AS stage2
 
 # combine source code and final binaries from previous stages
 COPY --from=stage0 /tmp/crystal/src /usr/local/share/crystal/src
@@ -146,7 +146,7 @@ COPY --from=stage1 /tmp/usr/local/bin /usr/local/bin
 
 # ---
 # stage3: final image
-FROM alpine:3.17.2 AS stage3
+FROM alpine:3.17.3 AS stage3
 
 # upgrade system and installed dependencies for security patches
 RUN --mount=type=cache,sharing=private,target=/var/cache/apk \
