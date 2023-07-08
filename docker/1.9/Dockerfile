@@ -34,8 +34,8 @@ RUN set -eux -o pipefail; \
     cd /tmp; \
     export \
         CRYSTAL_VERSION=1.9.0-dev \
-        CRYSTAL_COMMIT=742d920954b8f11c78f0b262c5bdc667a203cbba \
-        CRYSTAL_SHA256=bf8d902c79f92415e19916c7f37dbbb9d50c400aa78e85e5b6031fe61bb948b9 \
+        CRYSTAL_COMMIT=3268c819d5a3b9b38c60372c27fe6b31586ee241 \
+        CRYSTAL_SHA256=673bf2ef1f628c95ceca40345c112ab1c3954aafed89fb5dd4a1003bbd911d51 \
     ; \
     { \
         curl --fail -Lo crystal.tar.gz https://github.com/crystal-lang/crystal/archive/${CRYSTAL_COMMIT}.tar.gz; \
