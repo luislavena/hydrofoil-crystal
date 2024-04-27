@@ -70,6 +70,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3.1.0
 
+      - name: Define build number
+        run: |
+          echo "HYDROFOIL_COMMIT=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
       - name: Set up Depot CLI
         uses: depot/setup-action@v1
 
@@ -90,6 +94,7 @@ jobs:
             ghcr.io/luislavena/hydrofoil-crystal
           tags: |
             type=raw,${{ matrix.crystal_full }}
+            type=raw,${{ matrix.crystal_full }}-${{ env.HYDROFOIL_COMMIT }}
             type=raw,${{ matrix.crystal_major_minor }}
 
       - name: Setup Docker BuildKit cache strategy
