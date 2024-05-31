@@ -107,7 +107,7 @@ jobs:
         id: cache
         with:
           image: ghcr.io/${{ github.repository }}/build-cache
-          tag-prefix: crystal-${{ matrix.crystal_major_minor }}--
+          flavor: prefix=crystal-${{ matrix.crystal_major_minor }}--
 
       - name: Build Docker images
         uses: depot/build-push-action@v1
