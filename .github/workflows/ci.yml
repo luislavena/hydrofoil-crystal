@@ -73,7 +73,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3.1.0
+        uses: actions/checkout@v4
 
       - name: Define build number
         run: |
@@ -83,7 +83,7 @@ jobs:
         uses: depot/setup-action@v1
 
       - name: Docker GitHub Registry Login
-        uses: docker/login-action@v2.1.0
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -91,7 +91,7 @@ jobs:
 
       - name: Docker Metadata action
         id: meta
-        uses: docker/metadata-action@v4.1.1
+        uses: docker/metadata-action@v5
         with:
           flavor: |
             latest=false
@@ -103,7 +103,7 @@ jobs:
             type=raw,${{ matrix.crystal_major_minor }}
 
       - name: Setup Docker BuildKit cache strategy
-        uses: int128/docker-build-cache-config-action@v1.13.0
+        uses: int128/docker-build-cache-config-action@v1
         id: cache
         with:
           image: ghcr.io/${{ github.repository }}/build-cache
