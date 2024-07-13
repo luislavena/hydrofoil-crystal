@@ -18,15 +18,15 @@ jobs:
             target_platforms: linux/amd64,linux/arm64
             concurrency_group: compile-crystal
 
-          - crystal_major_minor: '1.12'
-            crystal_full: '1.12.2'
-            target_platforms: linux/amd64,linux/arm64
-            concurrency_group: compile-crystal
+          # - crystal_major_minor: '1.12'
+          #   crystal_full: '1.12.2'
+          #   target_platforms: linux/amd64,linux/arm64
+          #   concurrency_group: compile-crystal
 
-          - crystal_major_minor: '1.11'
-            crystal_full: '1.11.2'
-            target_platforms: linux/amd64,linux/arm64
-            concurrency_group: compile-crystal
+          # - crystal_major_minor: '1.11'
+          #   crystal_full: '1.11.2'
+          #   target_platforms: linux/amd64,linux/arm64
+          #   concurrency_group: compile-crystal
 
           # - crystal_major_minor: '1.10'
           #   crystal_full: '1.10.1'
