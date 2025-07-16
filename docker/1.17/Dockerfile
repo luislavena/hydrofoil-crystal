@@ -10,7 +10,7 @@
 
 # ---
 # stage0: bootstrap Crystal using Alpine's build of Crystal
-ARG ALPINE_VERSION=3.21.3
+ARG ALPINE_VERSION=3.22.1
 FROM --platform=$BUILDPLATFORM alpine:${ALPINE_VERSION} AS stage0
 
 # expose the target architecture to be used in cross-compilation
