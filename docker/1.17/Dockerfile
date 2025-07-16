@@ -232,6 +232,9 @@ RUN --mount=type=cache,sharing=private,target=/var/cache/apk \
         echo "group: user"; \
     } | tee /etc/fixuid/config.yml
 
+# Adjust Overmind socket location
+ENV OVERMIND_SOCKET=/tmp/overmind.sock
+
 # Adjust ENTRYPOINT
 ENTRYPOINT [ "/usr/local/bin/fixuid", "-q" ]
 CMD [ "/bin/sh" ]
