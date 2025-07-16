@@ -24,7 +24,7 @@ RUN --mount=type=cache,sharing=private,target=/var/cache/apk \
         curl \
         g++ \
         git \
-        llvm19-dev \
+        llvm20-dev \
         make \
         shards \
         yaml-dev \
@@ -95,8 +95,8 @@ RUN --mount=type=cache,sharing=private,target=/var/cache/apk \
         git \
         libevent-static \
         libxml2-static \
-        llvm19-dev \
-        llvm19-static \
+        llvm20-dev \
+        llvm20-static \
         make \
         musl-dev \
         pcre-dev \
