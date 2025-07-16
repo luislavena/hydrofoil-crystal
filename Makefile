@@ -1,4 +1,4 @@
-VERSION ?= 1.16
+VERSION ?= 1.17
 REGISTRY ?= ghcr.io
 
 DOCKERFILE := docker/${VERSION}/Dockerfile
@@ -11,3 +11,7 @@ test: build
 .PHONY: build
 build: ${DOCKERFILE}
 	docker build --progress=plain -t ${IMAGE_NAME}:${VERSION} -f ${DOCKERFILE} .
+
+.PHONY: console
+console: build
+	docker run -it --rm -v .:/code -w /code ${IMAGE_NAME}:${VERSION} -- sh -i

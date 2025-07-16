@@ -13,8 +13,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - crystal_major_minor: "1.16"
-            crystal_full: "1.16.3"
+          - crystal_major_minor: "1.17"
+            crystal_full: "1.17.0"
             target_platforms: linux/amd64,linux/arm64
             concurrency_group: compile-crystal
 
