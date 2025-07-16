@@ -90,17 +90,15 @@ RUN --mount=type=cache,sharing=private,target=/var/cache/apk \
     set -eux; \
     apk add \
         g++ \
-        gc-dev \
+        gc-static \
         gcc \
         git \
-        libevent-static \
         libxml2-static \
         llvm20-dev \
         llvm20-static \
         make \
         musl-dev \
-        pcre-dev \
-        pcre2-dev \
+        pcre2-static \
         yaml-static \
         zlib-static \
         zstd-static \
@@ -164,14 +162,17 @@ RUN --mount=type=cache,sharing=private,target=/var/cache/apk \
     apk add \
         curl \
         gc-dev \
+        gc-static \
         gcc \
         git \
+        libevent-dev \
         libevent-static \
         musl-dev \
         openssl-dev \
         openssl-libs-static \
-        pcre-dev \
         pcre2-dev \
+        pcre2-static \
+        sqlite-dev \
         sqlite-static \
         tzdata \
         yaml-dev \
