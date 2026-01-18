@@ -5,85 +5,87 @@ on:
   push:
     branches:
       - "main"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Crystal version to build (e.g., 1.17) or "all" for all versions'
+        required: false
+        default: 'all'
 
 jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      has_changes: ${{ steps.set-matrix.outputs.has_changes }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect changed docker directories
+        if: github.event_name != 'workflow_dispatch'
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          list-files: json
+          filters: |
+            docker:
+              - 'docker/**'
+
+      - name: Generate build matrix
+        id: set-matrix
+        run: |
+          VERSIONS_FILE=".github/versions.json"
+
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            # Manual trigger - build specified version or all
+            INPUT_VERSION="${{ github.event.inputs.version }}"
+            if [[ "$INPUT_VERSION" == "all" || -z "$INPUT_VERSION" ]]; then
+              CHANGED_DIRS=$(jq -r 'keys[]' "$VERSIONS_FILE")
+            else
+              CHANGED_DIRS="$INPUT_VERSION"
+            fi
+          else
+            # Automatic trigger - only changed directories
+            CHANGED_FILES='${{ steps.filter.outputs.docker_files }}'
+            if [[ "$CHANGED_FILES" == "[]" || -z "$CHANGED_FILES" ]]; then
+              echo "matrix={\"include\":[]}" >> $GITHUB_OUTPUT
+              echo "has_changes=false" >> $GITHUB_OUTPUT
+              exit 0
+            fi
+            CHANGED_DIRS=$(echo "$CHANGED_FILES" | jq -r '.[]' | sed -n 's|^docker/\([^/]*\)/.*|\1|p' | sort -u)
+          fi
+
+          # Build matrix from changed directories
+          MATRIX_INCLUDE="[]"
+          for DIR in $CHANGED_DIRS; do
+            if jq -e --arg v "$DIR" '.[$v]' "$VERSIONS_FILE" > /dev/null 2>&1; then
+              ENTRY=$(jq -c --arg v "$DIR" '{
+                crystal_major_minor: $v,
+                crystal_full: .[$v].crystal_full,
+                concurrency_group: "compile-crystal"
+              }' "$VERSIONS_FILE")
+              MATRIX_INCLUDE=$(echo "$MATRIX_INCLUDE" | jq -c --argjson e "$ENTRY" '. + [$e]')
+            fi
+          done
+
+          echo "matrix={\"include\":$MATRIX_INCLUDE}" >> $GITHUB_OUTPUT
+          if [[ "$MATRIX_INCLUDE" == "[]" ]]; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
   build:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.has_changes == 'true'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          - crystal_major_minor: "1.17"
-            crystal_full: "1.17.0"
-            target_platforms: linux/amd64,linux/arm64
-            concurrency_group: compile-crystal
-
-          # - crystal_major_minor: "1.15"
-          #   crystal_full: "1.15.1"
-          #   target_platforms: linux/amd64,linux/arm64
-          #   concurrency_group: compile-crystal
-
-          # - crystal_major_minor: "1.14"
-          #   crystal_full: "1.14.1"
-          #   target_platforms: linux/amd64,linux/arm64
-          #   concurrency_group: compile-crystal
-
-          # - crystal_major_minor: '1.13'
-          #   crystal_full: '1.13.3'
-          #   target_platforms: linux/amd64,linux/arm64
-          #   concurrency_group: compile-crystal
-
-          # - crystal_major_minor: '1.12'
-          #   crystal_full: '1.12.2'
-          #   target_platforms: linux/amd64,linux/arm64
-          #   concurrency_group: compile-crystal
-
-          # - crystal_major_minor: '1.11'
-          #   crystal_full: '1.11.2'
-          #   target_platforms: linux/amd64,linux/arm64
-          #   concurrency_group: compile-crystal
-
-          # - crystal_major_minor: '1.10'
-          #   crystal_full: '1.10.1'
-          #   target_platforms: linux/amd64,linux/arm64
-          #   concurrency_group: compile-crystal
-
-          # - crystal_major_minor: 1.9
-          #   crystal_full: 1.9.2
-          #   target_platforms: linux/amd64,linux/arm64
-          #   concurrency_group: compile-crystal
-
-          # - crystal_major_minor: 1.8
-          #   crystal_full: 1.8.2
-          #   target_platforms: linux/amd64,linux/arm64
-          #   concurrency_group: compile-crystal
-
-          # - crystal_major_minor: 1.7
-          #   crystal_full: 1.7.3
-          #   target_platforms: linux/amd64,linux/arm64
-          #   concurrency_group: compile-crystal
-
-          # - crystal_major_minor: 1.6
-          #   crystal_full: 1.6.2
-          #   target_platforms: linux/amd64,linux/arm64
-          #   concurrency_group: compile-crystal
-
-          # - crystal_major_minor: 1.5
-          #   crystal_full: 1.5.1
-          #   target_platforms: linux/amd64,linux/arm64
-          #   concurrency_group: compile-crystal
-
-          # - crystal_major_minor: 1.4
-          #   crystal_full: 1.4.1
-          #   target_platforms: linux/amd64
-
-          # - crystal_major_minor: 1.3
-          #   crystal_full: 1.3.2
-          #   target_platforms: linux/amd64
-
-          # - crystal_major_minor: 1.2
-          #   crystal_full: 1.2.2
-          #   target_platforms: linux/amd64
+      matrix: ${{ fromJSON(needs.detect-changes.outputs.matrix) }}
 
     name: >-
       Crystal ${{ matrix.crystal_full }} (${{ matrix.crystal_major_minor }})
@@ -137,7 +139,7 @@ jobs:
           context: docker/${{ matrix.crystal_major_minor }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          platforms: ${{ matrix.target_platforms }}
+          platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
           cache-from: ${{ steps.cache.outputs.cache-from }}
           cache-to: ${{ steps.cache.outputs.cache-to }}
