@@ -152,6 +152,13 @@ Version details:
 - LLVM 21.1.2
 ```
 
+For patch-level updates (e.g., 1.19.0 to 1.19.1), a simple subject line is
+sufficient:
+
+```
+Update Crystal to 1.19.1
+```
+
 Do not co-author commits.
 
 ## Git workflow
