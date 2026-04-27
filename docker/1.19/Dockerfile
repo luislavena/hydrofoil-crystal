@@ -10,7 +10,7 @@
 
 # ---
 # stage0: bootstrap Crystal using Alpine's build of Crystal
-ARG ALPINE_VERSION=3.23.2
+ARG ALPINE_VERSION=3.23.3
 FROM --platform=$BUILDPLATFORM alpine:${ALPINE_VERSION} AS stage0
 
 # expose the target architecture to be used in cross-compilation
@@ -34,8 +34,8 @@ RUN --mount=type=cache,sharing=private,target=/var/cache/apk \
 RUN set -eux -o pipefail; \
     cd /tmp; \
     export \
-        CRYSTAL_VERSION=1.19.1 \
-        CRYSTAL_SHA256=2f9cfaa6bdc872f6e89d483cfe474f35232e5dd4a33dcc05ec69e5fadb2b0257 \
+        CRYSTAL_VERSION=1.19.2 \
+        CRYSTAL_SHA256=675f34482de643c13b0f128584b02c7c5894f2d45cf55f3613a33e6009158b60 \
     ; \
     { \
         curl --fail -Lo crystal.tar.gz https://github.com/crystal-lang/crystal/archive/refs/tags/${CRYSTAL_VERSION}.tar.gz; \
