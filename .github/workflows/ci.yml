@@ -27,7 +27,7 @@ jobs:
 
       - name: Detect changed docker directories
         if: github.event_name != 'workflow_dispatch'
-        uses: dorny/paths-filter@v3
+        uses: dorny/paths-filter@v4
         id: filter
         with:
           list-files: json
